@@ -1,0 +1,25 @@
+# Entorno virtual de Python
+venv/
+.env/
+
+# Archivos de compilación de Python
+*.py[cod]
+__pycache__/
+*.so
+
+# Archivos de bases de datos SQLite
+*.sqlite3
+*.db
+
+# Archivos de log y caché
+*.log
+.cache/
+
+# Archivos generados por herramientas
+*.pyc
+*.pyo
+*.pyd
+.coverage
+*.egg-info/
+dist/
+build/
