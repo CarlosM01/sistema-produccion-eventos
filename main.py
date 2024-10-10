@@ -1,24 +1,9 @@
 from utils.validations import Validations
 from view import Index
 
-v = Validations()
-index = Index()
 
+def main():
+    pass
 
-userOption = v.intNumber(1,3)
-
-
-if userOption == 2:
-    userRut = input('rut: ')
-    userName = input('Nombre: ')
-    userEmail = input('email: ')
-    userPassword = input('telefono: ')
-
-
-
-
-
-
-
-
-
+if __name__ == "__main__":
+    main()
