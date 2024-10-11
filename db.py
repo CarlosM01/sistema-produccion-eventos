@@ -1,13 +1,16 @@
 import sqlite3
 
-class dataBase:
-    def __init__(self, db_name):
-        self.connection = sqlite3.connect(db_name)
-        self.cursor = self.connection.cursor()
+class DataBase:
+    def connect(self):
+        self.con = sqlite3.connect('dataBase.db')
+        self.cur = self.con.cursor()
 
     def SQL(self, query, params=()):
-        self.cursor.execute(query, params)
-        self.connection.commit()
+        self.cur.execute(query, params)
+        if query.strip().upper().startswith('SELECT'):
+            result = self.cur.fetchall()
+            return result
+        self.con.commit()
 
     def close(self):
-        self.connection.close()
+        self.con.close()

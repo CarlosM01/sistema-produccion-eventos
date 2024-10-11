@@ -1,9 +1,9 @@
-from utils.validations import Validations
-from view import Index
-
+from controllers.mainController import MainController
 
 def main():
-    pass
+    mainController = MainController()
+    mainController.start()
+
 
 if __name__ == "__main__":
     main()

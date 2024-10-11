@@ -5,19 +5,18 @@ class Validations():
     def rut():
         pass
 
-    def intNumber(min, max):
-        try:
-            while True: 
+    def intNumber(self, min, max):
+        while True: 
+            try:
                 userInput = int(input())
-                if min-1 < userInput < max+1:
+                if min <= userInput <= max:
                     return userInput
                 else:
                     print('Ingrese un número válido') 
-        except:
-            print('Debe ingresar un número')
+            except:
+                print('Debe ingresar un número')
 
     
-
     def email():
         pass
 
