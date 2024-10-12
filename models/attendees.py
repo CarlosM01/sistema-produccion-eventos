@@ -1,8 +1,10 @@
-from models.users import User
+from models.users import UserModel
 
-class Attendee(User):
-    def __init__(self, rut, nombre, email, telefono) -> None:
-        super().__init__(rut, nombre, email, telefono)
+class AttendeeModel(UserModel):
+    def __init__(self):
+        super().__init__()
+        self.role_id = 3
+        
 
-    def createReservation():
+    def view_content(self):
         pass

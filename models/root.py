@@ -1,9 +1,9 @@
 from models.users import UserModel
 
-class AdminModel(UserModel):
+class RootModel(UserModel):
     def __init__(self):
         super().__init__()
-        self.role_id = 2
+        self.role_id = 1
 
-    def manage_users(self):
+    def create_admin(self):
         pass

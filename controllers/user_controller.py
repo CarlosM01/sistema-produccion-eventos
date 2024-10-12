@@ -1,22 +1,31 @@
-from models.users import User
+from models.users import UserModel
 from views.welcome import Welcome
-from views.alert import alert
+from views.root import Root
+from views.admin import Admin
+from views.attendee import Attendee
+from views.common import Common
 
 class UserController:
     def __init__(self):
-        self.user = User()
+        self.user_model = UserModel()
         self.welcome_view = Welcome()
-
-    def register(self):
-        data = self.welcome_view.register()
-        result = self.user.post(data)        
-        alert(result['message'])
+        self.root_view = Root()
+        self.admin_view = Admin()
+        self.attendee_view = Attendee()
+        self.common_view = Common()
 
     def login(self):
         data = self.welcome_view.login()
-        result = self.user.get_by_email(data['email'])
-        if result:
-            if result['password'] == data['password']:
-                alert('Iniciar sesion... ')
-            else: alert('Contraseña incorrecta')
-        else: alert('Este email no se encuentra registrado')
+        result = self.user_model.login(data['email'], data['password'])
+        self.common_view.alert(result['message'])
+        if result['success']:
+            role = self.user_model.get_role(data['email'])
+            self.redirect_to_dashboard(role['role_id'])
+
+    def redirect_to_dashboard(self, role_id):
+        if role_id == 1:
+            self.root_view.watch()
+        elif role_id == 2:
+            self.admin_view.watch()
+        elif role_id == 3:
+            self.attendee_view.watch()

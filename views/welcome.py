@@ -15,26 +15,6 @@ Bienvenido/a al sistema de gestión de eventos
 ''')
         option = self.v.int_number(1,3) 
         return (option)
-    
-    def register(self) -> dict:
-        print('Registrar usuario')
-        name = input('Ingrese su NOMBRE: ')
-        email = input('Ingrese su EMAIL: ')
-        phone = input('Ingrese su TELEFONO: ')
-
-        while True:
-            password = input('Ingrese su CONTRASEÑA: ')
-            pass_confirm = input('Confirme su CONTRASEÑA: ')
-
-            if password == pass_confirm:
-                return {
-                    'name': name,
-                    'email': email,
-                    'phone': phone,
-                    'password': password,
-                }
-                
-            else: print('Las contraseñas no coinciden, intente nuevamente')
         
     def login(self) ->dict:
         print('Iniciar Sesion')
