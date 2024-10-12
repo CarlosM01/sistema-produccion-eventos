@@ -5,12 +5,13 @@ class Validations():
     def rut():
         pass
 
-    def intNumber(self, min, max):
+    @staticmethod
+    def int_number(min, max):
         while True: 
             try:
-                userInput = int(input())
-                if min <= userInput <= max:
-                    return userInput
+                user_input = int(input())
+                if min <= user_input <= max:
+                    return user_input
                 else:
                     print('Ingrese un número válido') 
             except:
@@ -20,5 +21,5 @@ class Validations():
     def email():
         pass
 
-    def phoneNumber():
+    def phone_number():
         pass

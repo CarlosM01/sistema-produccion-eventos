@@ -1,8 +1,8 @@
-from user import User
+from models.users import User
 
-class Attendee(User):
+class Admin(User):
     def __init__(self, rut, nombre, email, telefono) -> None:
         super().__init__(rut, nombre, email, telefono)
 
-    def createReservation():
+    def createShow():
         pass
