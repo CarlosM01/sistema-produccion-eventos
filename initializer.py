@@ -1,15 +1,13 @@
-from models.roles import Role
+from models.roles import RoleModel
 from models.root import RootModel
 
 def initial_data():
-    role_model = Role()
+    role_model = RoleModel()
     root_model = RootModel()
 
     roles = ['root', 'admin', 'attendee']
     for role in roles:
-        existing_role = role_model.get_by_name(role)
-        if not existing_role:
-            role_model.post(role)
+        role_model.create_role({'role_name': role})
 
     sudo_email = 'root@example.com'
     existing_user = root_model.get_by_attribute('email', sudo_email)
@@ -20,4 +18,4 @@ def initial_data():
             'phone': '123456789',
             'password': 'root',
         }
-        root_model.post(sudo)
+        root_model.register(sudo)

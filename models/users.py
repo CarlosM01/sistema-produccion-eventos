@@ -1,14 +1,15 @@
-from db import DataBase
+from models.crud import CRUDModel
 
-class UserModel:
+class UserModel(CRUDModel):
     def __init__(self):
-        self.db = DataBase()
+        super().__init__()
+        self.table_name = 'users'
         self.create_table()
 
     def create_table(self):
         self.db.connect()        
-        self.db.SQL('''
-            CREATE TABLE IF NOT EXISTS users (
+        self.db.SQL(f'''
+            CREATE TABLE IF NOT EXISTS {self.table_name} (
                 user_id INTEGER PRIMARY KEY AUTOINCREMENT,
                 name TEXT NOT NULL,
                 email TEXT NOT NULL,
@@ -19,70 +20,23 @@ class UserModel:
             )
         ''')
         self.db.close()
-
-    def get(self):
-        self.db.connect()
-        result = self.db.SQL('SELECT * FROM users')
-        self.db.close()
-        return result
-
-    def get_by_attribute(self, attribute ,value):
-        self.db.connect()
-        result = self.db.SQL(f'SELECT * FROM users WHERE {attribute} = ?', (value,))
-        self.db.close()
-        if result:
-            return result[0]
         
-    def get_role(self, email):
+    def get_role(self, email) -> dict:
         self.db.connect()
         result = self.db.SQL('SELECT role_id FROM users WHERE email = ?', (email,))
         self.db.close()
         if result:
             return result[0]
 
-    def post(self, data: dict) -> dict:
-        self.db.connect()
-        result = self.db.SQL('SELECT * FROM users WHERE email = ?', (data['email'],))
+    def register(self, data: dict) -> dict:
+        result = self.get_by_attribute('email', data['email'])
         if (result):
             return {'message': 'Este email ya ha sido registrado previamente'}
-        self.db.SQL('''
-            INSERT INTO users (name, email, phone, password, role_id)
-            VALUES (?, ?, ?, ?, ?)
-        ''', (data['name'], data['email'], data['phone'], data['password'], self.role_id))
-        self.db.close()
+        data['role_id'] = self.role_id
+        self.post(data)
         return {'message': 'Usuario registrado exitosamente'}
-
-    def patch(self, user_id, name=None, email=None, phone=None, password=None):
-        self.db.connect()
-
-        fields = []
-        values = []
-        if name:
-            fields.append("name = ?")
-            values.append(name)
-        if email:
-            fields.append("email = ?")
-            values.append(email)
-        if phone:
-            fields.append("phone = ?")
-            values.append(phone)
-        if password:
-            fields.append("password = ?")
-            values.append(password)
-
-        if fields:
-            sql_query = f"UPDATE users SET {', '.join(fields)} WHERE user_id = ?"
-            values.append(user_id)
-            self.db.SQL(sql_query, tuple(values))
-
-        self.db.close()
-
-    def delete(self, user_id):
-        self.db.connect()
-        self.db.SQL('DELETE FROM users WHERE user_id = ?', (user_id,))
-        self.db.close()
     
-    def login(self, email, password) ->dict:
+    def login(self, email, password) -> dict:
         user = self.get_by_attribute('email', email)
         if user:
             if user['password'] == password:

@@ -10,5 +10,5 @@ class AttendeeController:
 
     def register(self):
         data = self.common_view.register()
-        result = self.attendee_model.post(data)        
+        result = self.attendee_model.register(data)        
         self.common_view.alert(result['message'])

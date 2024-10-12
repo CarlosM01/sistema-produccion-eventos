@@ -5,5 +5,8 @@ class AdminModel(UserModel):
         super().__init__()
         self.role_id = 2
 
-    def manage_users(self):
-        pass
+    def get_admin_list(self):
+        self.db.connect()
+        result = self.db.SQL(f"SELECT * FROM {self.table_name} WHERE role_id = {self.role_id}")
+        self.db.close()
+        return result

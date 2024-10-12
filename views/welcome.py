@@ -1,6 +1,5 @@
 from utils.validations import Validations
 
-
 class Welcome():
     def __init__(self):
         self.v = Validations()

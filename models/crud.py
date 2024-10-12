@@ -1,9 +1,8 @@
 from db import DataBase
 
 class CRUDModel:
-    def __init__(self, table_name):
+    def __init__(self):
         self.db = DataBase()
-        self.table_name = table_name
 
     def post(self, data):
         columns = ', '.join(data.keys())
