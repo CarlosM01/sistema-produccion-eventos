@@ -62,10 +62,10 @@ class MainController:                           #Define la clase principal, cord
     
 
     def redirect_to_dashboard(self, role_id):                                   #Este método redirige al usuario al menú correspondiente a su rol.
-        if role_id == 1:                                                        #
-            result = self.root_controller.menu()
+        if role_id == 1:                                                        #Si el rol es 1: (root):
+            result = self.root_controller.menu()                                #Llama al manú del "RootController".
             self.register(result['role_id']) if result['register'] else None
-        if role_id == 2:
-            self.admin_view.watch()
-        if role_id == 3:
-            self.attendee_view.watch()
+        if role_id == 2:                                                        #Si el rol es 2 (admin):
+            self.admin_view.watch()                                             #Redirige a la vista de administración.
+        if role_id == 3:                                                        #Si el rol es 3 (asistente):
+            self.attendee_view.watch()                                          #Redirige a la vista asistente.
