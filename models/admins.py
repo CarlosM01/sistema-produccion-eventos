@@ -1,4 +1,4 @@
-from models.users import UserModel #Se invoca la clase UserModel.
+from models.users import UserModel #Se importa la clase UserModel.
 
 class AdminModel(UserModel): #Se crea la clase AdminModel que hereda sus atributos de la clase anterior.
     def __init__(self): #Define el modulo constructor de la clase AdminModel.
