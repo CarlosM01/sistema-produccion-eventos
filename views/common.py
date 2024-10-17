@@ -1,3 +1,5 @@
+from tabulate import tabulate
+
 class CommonView():
     def register(self) -> dict:
         print('Registrar usuario')
@@ -35,6 +37,14 @@ class CommonView():
         # Crear diccionario solo con los campos no vacíos
         data = {key: value for key, value in inputs.items() if value}
         return data
+    
+
+    def display(self, data):
+        if not data:
+            print("No hay datos disponibles.")
+            return
+        
+        print(tabulate(data, headers="keys", tablefmt="pretty"))
 
 
     @staticmethod

@@ -7,8 +7,8 @@ class AdminModel(UserModel):
 
     def get_admin_list(self):
         self.db.connect()
-        result = self.db.SQL(f"SELECT user_id, name, email, phone FROM {self.table_name} WHERE role_id = {self.role_id}")
+        res = self.db.SQL(f"SELECT user_id, name, email, phone FROM {self.table_name} WHERE role_id = {self.role_id}")
         self.db.close()
-        return result
+        return res
     
     

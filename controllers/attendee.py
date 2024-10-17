@@ -1,11 +1,11 @@
 from models.attendees import AttendeeModel
-from views.attendee import Attendee
+from views.attendee import AttendeeView
 from views.common import CommonView
 
 class AttendeeController:
     def __init__(self):
         self.attendee_model = AttendeeModel()
-        self.attendee_view = Attendee()
+        self.attendee_view = AttendeeView()
         self.common_view = CommonView()
 
     def register(self):

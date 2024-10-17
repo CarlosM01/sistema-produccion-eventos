@@ -1,6 +1,6 @@
 from utils.validations import Validations
 
-class Welcome():
+class WelcomeView():
     def __init__(self):
         self.v = Validations()
 
@@ -20,6 +20,3 @@ Bienvenido/a al sistema de gestión de eventos
         email = input('Ingrese su EMAIL: ')
         password = input('Ingrese su PASSWORD: ')
         return {'email': email, 'password': password}
-
-        
-    

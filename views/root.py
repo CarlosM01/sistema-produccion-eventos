@@ -26,37 +26,11 @@ SELECCIONE UNA OPCIÓN:
         return(option)
     
 
-    def display_admins(self, data):
-        if not data:
-            print("No hay datos disponibles.")
-            return
-        
-        print(tabulate(data, headers="keys", tablefmt="pretty"))
-    
-
-    def update_admin(self, req:list) ->int:
-        print('---Actualizar Datos de Administrador---')
-        id = self.v.get_valid_id(req, 'Actualizar')
-        if id:
-            data = self.update_user()
-            print('Usuario ACTUALIZADO')
-            return {'succes':True, 'id':id, 'data':data}
-        else: return {'succes': False}
-
-
-    def delete_admin(self, req:list):
-        print('---Eliminar Datos de Administrador---')
-        id = self.v.get_valid_id(req, 'Eliminar')
-        if id:
-            print('Usuario ELIMINADO')
-            return {'succes':True, 'id':id}
-        else: return {'succes': False}
-
-    def manage_admin_action(self, req: list, action: str) -> dict:
+    def manage_admin_action(self, available_ids: list, action: str) -> dict:
         """Método genérico para actualizar o eliminar un administrador."""
         print(f'---{action.capitalize()} Datos de Administrador---')
 
-        id = self.v.get_valid_id(req, action)
+        id = self.v.get_valid_id(available_ids, action)
         if not id:
             return {'success': False}
 
