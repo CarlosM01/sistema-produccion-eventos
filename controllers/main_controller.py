@@ -1,55 +1,55 @@
-from models.users import UserModel
-from models.root import RootModel
-from models.admins import AdminModel
-from models.attendees import AttendeeModel
+from models.users import UserModel            #Importa la clase UserModel.
+from models.root import RootModel             #Importa la clase RootModel.
+from models.admins import AdminModel          #Importa la clase AdimModel.
+from models.attendees import AttendeeModel    #Importa la clase AttendeeModel.
 
-from views.welcome import Welcome 
-from views.common import Common
+from views.welcome import Welcome             #Importa la clase Welcome.
+from views.common import Common               #Importa la clase Common.
 
-from controllers.user_controller import UserController
-from controllers.attendee_controller import AttendeeController
-from controllers.root_controller import RootController
-
-
-class MainController:
-    def __init__(self):
-        self.user_model = UserModel()
-        self.root_model = RootModel()
-        self.admin_model = AdminModel()
-        self.attendee_model = AttendeeModel()
-
-        self.welcome_view = Welcome()
-        self.common_view = Common()
-        self.user_controller = UserController()
-        self.root_controller = RootController()
-        self.attendee_controller = AttendeeController()
+from controllers.user_controller import UserController             #Importa el controlador UserController.
+from controllers.attendee_controller import AttendeeController     #Importa el controlador AttendeeController.
+from controllers.root_controller import RootController             #Importa el controlador RootController.
 
 
-    def start(self):
-        while True:
-            option = self.welcome_view.menu()
-            if option == 1:
-                result = self.login()
-                self.redirect_to_dashboard(result['role_id']) if result['success'] else None
-            elif option == 2:
-                self.register(3)
-            elif option == 3:
-                self.common_view.alert("Saliendo del sistema...")
-                exit()
+class MainController:                           #Define la clase principal, cordina todas las interacciones del sistema, osea un controlador con el patrón MVC.
+    def __init__(self):                         #El constructor de la clase, inicializa los modelos, vistas y controladores.
+        self.user_model = UserModel()           #Se crea la instancia del modelo "UserModel".
+        self.root_model = RootModel()           #Se crea la instancia del modelo "RootModel".
+        self.admin_model = AdminModel()         #Se crea la instancia del modelo "AdminModel".
+        self.attendee_model = AttendeeModel()   #Se crea la instancia del modelo "AttendeeModel".
+
+        self.welcome_view = Welcome()                       #Se crea la instancia de las vistas "Welcome".
+        self.common_view = Common()                         #Se crea la instancia de las vistas "Common".
+        self.user_controller = UserController()             #Se crea la instancia de las vistas "UserController".
+        self.root_controller = RootController()             #Se crea la instancia de las vistas "RootController".
+        self.attendee_controller = AttendeeController()     #Se crea la instancia de las vistas "AttendeeController".
 
 
-    def register(self, role_id):
-        data = self.common_view.register()
+    def start(self):                            #Se define el método "Start" que inicia el flujo principal del programa.
+        while True:                             #Se ejecuta indefinidamente hasta que el usurio decida salir.
+            option = self.welcome_view.menu()   #Invoca a la vista "Welcome" para mostrar el menú principal y obtener la opción seleccionada.
+            if option == 1:                     #Primera opcion.
+                result = self.login()           #Invoca al método "login" para iniciar sesión. 
+                self.redirect_to_dashboard(result['role_id']) if result['success'] else None #Si el inicio es exitoso, redirige al usuario al tablero acorde a su rol.
+            elif option == 2:                   #Segunda opcion.
+                self.register(3)                #Invoca al método "register" y "role_id" para que el usuario se registre.
+            elif option == 3:                   #Tercera opcion.
+                self.common_view.alert("Saliendo del sistema...")   #Muestra un mensaje de salida y temina el programa.
+                exit() #Finaliza el programa.
 
-        role_models = {
-            1: self.root_model,
-            2: self.admin_model,
-            3: self.attendee_model
+
+    def register(self, role_id):                            #Este método registra usuarios en el sistema.
+        data = self.common_view.register()                  #Obtiene los datos de registro mediante "Common".
+
+        role_models = {                                     #Crea un diccionario que asocia cada "role_id".
+            1: self.root_model,                             #Se agrega el rol "root".
+            2: self.admin_model,                            #Se agrega el rol "admin".
+            3: self.attendee_model                          #Se agrega el rol "attendee".
         }
-        model = role_models.get(role_id)
-        if model:
-            result = model.register(data)
-            self.common_view.alert(result['message'])
+        model = role_models.get(role_id)                    #Obtiene el modelo según el "role_id" como argumento.
+        if model:                                           #Si el modelo existe: 
+            result = model.register(data)                   #Registra los datos en la base de datos usando el modelo que corresponda.
+            self.common_view.alert(result['message'])       #Muestra un mensaje de error o éxito.
             
 
     def login(self):
