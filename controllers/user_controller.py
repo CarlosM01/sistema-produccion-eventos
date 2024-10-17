@@ -4,10 +4,10 @@ from models.admins import AdminModel
 from models.attendees import AttendeeModel
 
 from views.welcome import Welcome
-from views.root_view import RootView
+from views.root import RootView
 from views.admin import Admin
 from views.attendee import Attendee
-from views.common import Common
+from views.common import CommonView
 
 from controllers.root_controller import RootController
 
@@ -23,7 +23,7 @@ class UserController:
         self.root_view = RootView()
         self.admin_view = Admin()
         self.attendee_view = Attendee()
-        self.common_view = Common()
+        self.common_view = CommonView()
 
         self.root_controller = RootController()
 

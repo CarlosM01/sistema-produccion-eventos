@@ -2,6 +2,9 @@ class Validations():
     def __init__(self) -> None:
         pass
 
+    def name():
+        pass
+
     def rut():
         pass
 
@@ -16,10 +19,13 @@ class Validations():
                     print('Ingrese un número válido') 
             except:
                 print('Debe ingresar un número')
-
     
     def email():
         pass
 
     def phone_number():
+        #Se podria usar un try except, y la funcion int()
+        pass
+
+    def password():
         pass

@@ -1,9 +1,12 @@
-from utils.validations import Validations
 from tabulate import tabulate
 
+from utils.validations import Validations
 
-class RootView:    
+from views.common import CommonView
+
+class RootView(CommonView):    
     def __init__(self):
+        super().__init__()
         self.v = Validations()
 
 
@@ -31,4 +34,16 @@ SELECCIONE UNA OPCIÓN:
         print(tabulate(data, headers="keys", tablefmt="pretty"))
     
 
+    def update_admin(self, req:list) ->int:
+        print('---Actualizar Datos de Administrador---')
+
+        while True:
+            selected_id = input('Seleccione el Id del usuario que desea modificar o "X" para cancelar')
+            if int(selected_id) in req:
+                data = self.update_user()
+                return [selected_id, data]
+            elif selected_id.upper == 'X':
+                return None
+            else: print('Seleccione un id válido')
+        
 

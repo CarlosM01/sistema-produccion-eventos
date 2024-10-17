@@ -1,3 +1,4 @@
+import keyboard
 from utils.validations import Validations
 
 class Welcome():
@@ -16,10 +17,10 @@ Bienvenido/a al sistema de gestión de eventos
         return (option)
         
     def login(self) ->dict:
-        print('Iniciar Sesion')
-        data = {
-        'email': input('Ingrese su EMAIL: '),
-        'password': input('Ingrese su PASSWORD: '),
-        }
-        return(data)
+        print('---INICIAR SESIÓN---')  
+        email = input('Ingrese su EMAIL: ')
+        password = input('Ingrese su PASSWORD: ')
+        return {'email': email, 'password': password}
+
+        
     
