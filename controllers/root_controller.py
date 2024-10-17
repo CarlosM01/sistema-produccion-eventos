@@ -3,7 +3,6 @@ from models.root import RootModel
 from models.admins import AdminModel
 
 from views.root import RootView
-from views.common import CommonView
 
 
 class RootController:
@@ -12,7 +11,6 @@ class RootController:
         self.root_model = RootModel()
         self.admin_model = AdminModel()
         self.root_view = RootView()
-        self.common_view = CommonView()
 
 
     def menu(self):
@@ -29,13 +27,16 @@ class RootController:
         if option == 2:
             res['register'] = True
         if option == 3:
-            data = self.common_view.update_user(availables_id)
-            self.user_model.update(data[0],data[1])
+            update = self.root_view.update_admin(availables_id)    
+            self.user_model.update(update['id'], update['data']) if update['success'] else None
         if option == 4:
-            pass
+            delete = self.root_view.delete_admin(availables_id)
+            self.user_model.delete(delete['id']) if delete['success'] else None
         if option == 5:
+            self.root_view.alert('Cerrando sesión')
             res['log_out'] = True
         if option == 6:
+            self.root_view.alert('Saliendo del sistema...')
             exit()
         return res
 

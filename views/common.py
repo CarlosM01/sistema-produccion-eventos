@@ -21,7 +21,6 @@ class CommonView():
 
     def update_user(self) -> dict:
         print('--- Actualizar Datos ---')
-
         name = input('Ingrese nuevo NOMBRE: (Dejar en blanco para omitir) ')
         email = input('Ingrese nuevo EMAIL: (Dejar en blanco para omitir) ')
         phone = input('Ingrese nuevo TELEFONO: (Dejar en blanco para omitir) ')

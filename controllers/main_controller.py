@@ -33,8 +33,8 @@ class MainController:
             if active_user: 
                 if active_user['role_id'] == 1:
                     res = self.root_controller.menu()
-                    self.register() if res['register'] else None
-                    self.session_model.end_session() if res['log_out'] else None
+                    self.register() if res.get('register') else None
+                    self.session_model.end_session() if res.get('log_out') else None
                 if active_user['role_id'] == 2:
                     self.common_view.alert('Admin Dashboard')
                 if active_user['role_id'] == 3:

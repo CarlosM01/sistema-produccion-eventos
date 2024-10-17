@@ -28,12 +28,14 @@ class CRUDModel:
     def update(self, id:int, data: dict) -> dict:
         self.db.connect()
         fields = ', '.join([f"{key} = ?" for key in data.keys()])
-        query = f'UPDATE {self.table_name} SET {fields} WHERE {self.table_name}_id = ?'
+        id_field = self.table_name.rstrip('s')
+        query = f'UPDATE {self.table_name} SET {fields} WHERE {id_field}_id = ?'
         self.db.SQL(query, (*data.values(), id))
         self.db.close()
         return {'message': 'Registro actualizado exitosamente'}
 
     def delete(self, item_id:int):
         self.db.connect()
-        self.db.SQL(f"DELETE FROM {self.table_name} WHERE id = ?", (item_id,))
+        id_field = self.table_name.rstrip('s')
+        self.db.SQL(f"DELETE FROM {self.table_name} WHERE {id_field}_id = ?", (item_id,))
         self.db.close()

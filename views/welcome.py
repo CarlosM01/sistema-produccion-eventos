@@ -1,4 +1,3 @@
-import keyboard
 from utils.validations import Validations
 
 class Welcome():

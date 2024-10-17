@@ -36,14 +36,44 @@ SELECCIONE UNA OPCIÓN:
 
     def update_admin(self, req:list) ->int:
         print('---Actualizar Datos de Administrador---')
+        id = self.v.get_valid_id(req, 'Actualizar')
+        if id:
+            data = self.update_user()
+            print('Usuario ACTUALIZADO')
+            return {'succes':True, 'id':id, 'data':data}
+        else: return {'succes': False}
 
-        while True:
-            selected_id = input('Seleccione el Id del usuario que desea modificar o "X" para cancelar')
-            if int(selected_id) in req:
-                data = self.update_user()
-                return [selected_id, data]
-            elif selected_id.upper == 'X':
-                return None
-            else: print('Seleccione un id válido')
+
+    def delete_admin(self, req:list):
+        print('---Eliminar Datos de Administrador---')
+        id = self.v.get_valid_id(req, 'Eliminar')
+        if id:
+            print('Usuario ELIMINADO')
+            return {'succes':True, 'id':id}
+        else: return {'succes': False}
+
+    def manage_admin_action(self, req: list, action: str) -> dict:
+        """Método genérico para actualizar o eliminar un administrador."""
+        print(f'---{action.capitalize()} Datos de Administrador---')
+
+        id = self.v.get_valid_id(req, action)
+        if not id:
+            return {'success': False}
+
+        if action == 'actualizar':
+            data = self.update_user()
+            print('Usuario ACTUALIZADO')
+            return {'success': True, 'id': id, 'data': data}
+
+        elif action == 'eliminar':
+            print('Usuario ELIMINADO')
+            return {'success': True, 'id': id}
         
+        
+    def update_admin(self, req: list) -> dict:
+        return self.manage_admin_action(req, 'actualizar')
+
+    def delete_admin(self, req: list) -> dict:
+        return self.manage_admin_action(req, 'eliminar')
+
 
