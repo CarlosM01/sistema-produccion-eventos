@@ -52,17 +52,17 @@ class MainController:                           #Define la clase principal, cord
             self.common_view.alert(result['message'])       #Muestra un mensaje de error o éxito.
             
 
-    def login(self):
-        data = self.welcome_view.login()
-        result = self.user_model.login(data['email'], data['password'])
-        self.common_view.alert(result['message'])
-        if result['success']:
+    def login(self):                                                            #Este método maneja el inicio de sesión de los usuarios.
+        data = self.welcome_view.login()                                        #Obtiene el email y contraseña de la vista "Welcome"
+        result = self.user_model.login(data['email'], data['password'])         #Invoca el método "login" para autenticar al usuario.
+        self.common_view.alert(result['message'])                               #Muestra un mensaje de error o exito.
+        if result['success']:                                                   #Si el inicio de sesión es exitoso, obtiene el rol y lo devuelve con el estado de exito.
             role = self.user_model.get_role(data['email'])
             return {'success': True, 'role_id': role['role_id']}
     
 
-    def redirect_to_dashboard(self, role_id):
-        if role_id == 1:
+    def redirect_to_dashboard(self, role_id):                                   #Este método redirige al usuario al menú correspondiente a su rol.
+        if role_id == 1:                                                        #
             result = self.root_controller.menu()
             self.register(result['role_id']) if result['register'] else None
         if role_id == 2:
