@@ -26,28 +26,19 @@ SELECCIONE UNA OPCIÓN:
         return(option)
     
 
-    def manage_admin_action(self, available_ids: list, action: str) -> dict:
-        """Método genérico para actualizar o eliminar un administrador."""
-        print(f'---{action.capitalize()} Datos de Administrador---')
-
-        id = self.v.get_valid_id(available_ids, action)
+    def update_admin(self, available_ids: list) -> dict:
+        id = self.v.get_valid_id(available_ids)
         if not id:
             return {'success': False}
+        data = self.update_user()
+        print('Usuario ACTUALIZADO')
+        return {'success': True, 'id': id, 'data': data}
 
-        if action == 'actualizar':
-            data = self.update_user()
-            print('Usuario ACTUALIZADO')
-            return {'success': True, 'id': id, 'data': data}
 
-        elif action == 'eliminar':
-            print('Usuario ELIMINADO')
-            return {'success': True, 'id': id}
-        
-        
-    def update_admin(self, req: list) -> dict:
-        return self.manage_admin_action(req, 'actualizar')
-
-    def delete_admin(self, req: list) -> dict:
-        return self.manage_admin_action(req, 'eliminar')
-
+    def delete_admin(self, available_ids: list) -> dict:
+        id = self.v.get_valid_id(available_ids)
+        if not id:
+            return {'success': False}
+        print('Usuario ELIMINADO')
+        return {'success': True, 'id': id}
 

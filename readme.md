@@ -37,6 +37,7 @@ Diego:
 * Avanzar en creacion de vistas
 
 
+Diagrama de Flujo de Controladores
 
 @startuml
 start
@@ -82,5 +83,63 @@ else (No)
         stop
     endif
 endif
+
+@enduml
+
+
+Estructura de Archivos 
+
+@startuml
+
+package "app" {
+    
+    package "controllers" {
+        class AdminController
+        class AttendeeController
+        class MainController
+        class RootController
+    }
+
+    package "models" {
+        class AdminsModel
+        class AttendeesModel
+        class CrudModel
+        class LocationsModel
+        class RolesModel
+        class RootModel
+        class SeatsModel
+        class ShowsModel
+        class UsersModel
+    }
+
+    package "services" {
+        class SessionService
+    }
+
+    package "utils" {
+        class Validations
+    }
+
+    package "views" {
+        class AdminView
+        class AttendeeView
+        class CommonView
+        class RootView
+        class WelcomeView
+    }
+    
+    class Database
+    class Initializer
+    class Main
+
+}
+
+Database --> models : "Gestiona datos"
+SessionService --> controllers : "Administra sesiones"
+controllers --> views : "Interactúa con"
+controllers --> models : "Accede a"
+utils --> views : "Soporte para validaciones"
+Main --> controllers : "Inicia flujo de control"
+Initializer --> Database : "Configura base de datos"
 
 @enduml

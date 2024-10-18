@@ -75,7 +75,8 @@ class MainController:
         if result['success']:
             user_data = self.user_model.get_by_attribute('email', data['email'])
             self.session.start_session(user_data)
-            self.redirect_to_dashboard()
+        
+        self.redirect_to_dashboard()
 
 
     def _handle_root_dashboard(self):

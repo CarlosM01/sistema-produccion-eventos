@@ -9,4 +9,3 @@ def main():
 #Punto de partida de la aplicación    
 if __name__ == "__main__":
     main()
- 
