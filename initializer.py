@@ -18,4 +18,4 @@ def initial_data():                           #Esta función agrega a la base de
             'phone': '123456789',
             'password': 'root',
         }
-        root_model.register(sudo)            #Utiliza el método "register" para registrar al nuevo usuario "root".
+        root_model.register(sudo)            #Utiliza el método "register" para registrar al nuevo usuario "root" y se guarda en la base de datos.
