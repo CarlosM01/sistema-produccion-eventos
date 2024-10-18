@@ -21,13 +21,13 @@ class RootController:                                        #Esta clase actúa 
                 self.root_view.display_admins(self.admins)   #Se invoca "display_admins" de "RootView" para mostrar la lista de administradores.
             if option == 2:                                  #Si es esta opcion, entonces:
                 return {'register':True, 'role_id':2}        #Retorna un diccionario con register:True y role_id:2, lo que indica que se debe registrar un nuevo admin.
-            if option == 3:                                  
-                pass                
-            if option == 4:
+            if option == 3:                                  #En esta linea  se puede agregar más opciones.
+                pass                                         
+            if option == 4:                                  #En esta linea  se puede agregar más opciones.
                 pass
-            if option == 5:
+            if option == 5:                                  #Finaliza el método y regresa al menú anterior.
                 return
-            if option == 6:
+            if option == 6:                                  #Termina la ejecución del programa.
                 exit()
 
         
