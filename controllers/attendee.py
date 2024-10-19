@@ -2,16 +2,18 @@ from services.session import Session
 
 from models.locations import LocationsModel
 from models.shows import ShowsModel
+from models.reservations import ReservationsModel
 from models.users import UserModel
 
 from views.attendee import AttendeeView
 
 
-class AdminController:
+class AttendeeController:
     def __init__(self):
         self.session = Session()
         self.locations_model = LocationsModel()
         self.shows_model = ShowsModel()
+        self.reservations_model = ReservationsModel()
         self.user_model = UserModel()
         self.attendee_view = AttendeeView()
 
@@ -35,6 +37,7 @@ class AdminController:
         # Diccionario de acciones del menú.
         menu_actions = {
             1: self._new_reservation,
+            2: self._handle_reservatios,
 
             4: self._log_out,
             5: self._exit_system,
@@ -48,8 +51,49 @@ class AdminController:
 
 
     def _new_reservation(self):
-        locations, location_ids = self.locations
         shows_recap, show_ids = self.shows
+        self.attendee_view.display(shows_recap)
+
+        selected_show = self.attendee_view.select_show(show_ids)
+        if selected_show['success']:
+            self._process_show(selected_show['id'])
+    
+    def _process_show(self, show_id):
+        details = self.shows_model.get_show_details(show_id)
+        self.attendee_view.display(details)
+        seats = self.attendee_view.buy_ticket(details)
+        self._handle_payment(seats, details) if seats else None
+
+    def _handle_payment(self, seats, details):
+        total_price = details['price'] * seats
+        if self.attendee_view.confirm_payment(total_price):
+            self._create_reservation(seats, total_price, details) 
+
+    def _create_reservation(self, seats, price, details):
+        self.shows_model.update_reservations(seats, details['show_id'])
+        data = {
+            'seats':seats, 
+            'price':price, 
+            'user_id':self.user_data['user_id'], 
+            'show_id':details['show_id']
+            }
+        ticket = self.reservations_model.create_reservation(data)
+        self.attendee_view.display_ticket(ticket)
+
+             
+    
+
+
+
+
+
+
+
+
+
+
+
+
 
     def _handle_reservatios(self):
         while True:
@@ -70,18 +114,6 @@ class AdminController:
 
 
 
-
-    def _display_shows(self):
-        shows_recap, show_ids = self.shows
-        self.attendee_view.display(shows_recap)
-        show = self.attendee_view.select_show(show_ids)
-        if show['success']:
-            details = self.shows_model.get_shows_detail(show['id'])
-            self.attendee_view.display(details)
-            self._buy_ticket()
-
-    def _buy_ticket(self):
-        pass
 
     def _update_show(self):
         shows_recap, show_ids = self.shows
@@ -121,7 +153,7 @@ class AdminController:
         self.session.start_session(self.user_model.get_by_attribute('user_id', user_data['user_id']))
 
     def _log_out(self):
-        self.logout = self.admin_view.log_out()
+        self.logout = self.attendee_view.log_out()
 
     def _exit_system(self):
-        exit() if self.admin_view.exit_system() else None
+        exit() if self.attendee_view.exit_system() else None

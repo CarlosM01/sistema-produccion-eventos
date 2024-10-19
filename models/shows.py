@@ -18,6 +18,7 @@ class ShowsModel(CRUDModel):
                 description TEXT,
                 date TEXT NOT NULL,
                 price REAL NOT NULL,
+                reservations INTEGER NOT NULL,
                 location_id INTEGER NOT NULL,
                 FOREIGN KEY (location_id) REFERENCES locations(location_id) ON DELETE SET NULL  
             )
@@ -35,7 +36,7 @@ class ShowsModel(CRUDModel):
                 shows.date,
                 locations.name AS location_name
             FROM shows
-            JOIN locations ON shows.location_id = locations.location_id;
+            JOIN locations ON shows.location_id = locations.location_id
         ''')
 
     def create_detail_view(self):        
@@ -44,35 +45,51 @@ class ShowsModel(CRUDModel):
             CREATE VIEW shows_detail AS
             SELECT 
                 shows.show_id,
+                shows.name,
                 shows.artist,
                 shows.description,
                 shows.date,
                 shows.price,
-                locations.name AS location_name,
-                locations.address AS location_address
+                shows.reservations,
+                locations.capacity AS capacity,
+                locations.name AS location,
+                locations.address AS address                
             FROM shows
-            JOIN locations ON shows.location_id = locations.location_id;
+            JOIN locations ON shows.location_id = locations.location_id
         ''')
 
+
+    def create_show(self, data:dict, location_id:int):
+        data['location_id'] = location_id
+        data['reservations'] = 0
+        self.post(data)
 
     def get_shows_recap(self):
         self.db.connect()
         self.create_recap_view()
         time.sleep(0.5)
-        result = self.db.SQL("SELECT * FROM shows_recap;")
-        self.db.SQL("DROP VIEW IF EXISTS shows_recap;")
+        result = self.db.SQL("SELECT * FROM shows_recap")
+        self.db.SQL("DROP VIEW IF EXISTS shows_recap")
         self.db.close()
         return result
 
-    def get_shows_detail(self, id):
+    def get_show_details(self, id):
         self.db.connect()
         self.create_detail_view()
         time.sleep(0.5)
-        result = self.db.SQL(f"SELECT * FROM shows_detail WHERE show_id = {id};")
-        self.db.SQL("DROP VIEW IF EXISTS shows_detail;")
+        result = self.db.SQL(f"SELECT * FROM shows_detail WHERE show_id = {id}")
+        self.db.SQL("DROP VIEW IF EXISTS shows_detail")
         self.db.close()
-        return result
+        return result[0]
+    
 
+    def update_reservations(self, new_reservation, id):
+        self.db.connect()
+        res = self.db.SQL(f"SELECT reservations FROM {self.table_name} WHERE show_id = {id}")
+        result = res[0]['reservations'] + new_reservation
+        self.db.SQL(f"UPDATE {self.table_name} SET reservations={result} WHERE show_id = {id}")
+        self.db.close()
+        
 
     def get_by_location(self, id:int):
         self.db.connect()

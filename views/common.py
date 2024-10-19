@@ -50,6 +50,8 @@ class CommonView():
         if not data:
             print("No hay datos disponibles.")
             return
+        if type(data) == dict:
+            data = [data]
         
         print(tabulate(data, headers="keys", tablefmt="pretty"))
 

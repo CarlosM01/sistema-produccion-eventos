@@ -10,20 +10,40 @@ class AttendeeView(CommonView):
 Bienvenido/a {user_name}
 
 SELECCIONE UNA OPCIÓN:
-    1. Ver eventos disponibles 
-    2. Administrar mis reservas
-    3. Actualizar información personal
-    4. Volver al menú principal
-    5. Salir de la aplicación
+    1. Nueva reserva
+    2. Ver mis reservas
+    3. Anular reserva
+    4. Actualizar información personal
+    5. Volver al menú principal
+    6. Salir de la aplicación
 ''')
         option = self.v.int_number(1, 5)
         return(option)
+
     
-    def buy_ticket(self, available_seats:int):
-        print(f'Quedan {available_seats} asientos disponibles')
-        if input('¿Desea comprar un boleto para este evento? (S/N):  ').upper().strip() != 'S':
-            return
-        
+
+    def buy_ticket(self, details) ->int:
+        available_seats = details['capacity'] - details['reservations']
+        if available_seats == 0:
+            print('No quedan cupos para este evento')
+            return False
+        print(f'Quedan {available_seats} asientos disponibles de {details['capacity']}')
+        if input(f'¿Desea comprar un boleto para {details['name']}? (S/N):  ').upper().strip() != 'S':
+            print('Operación cancelada')
+            return False
+        return self.v.int_number(1, available_seats, '¿Cuántos asientos desea reservar?')
+    
+    def confirm_payment(self, price):
+        if input(f'El total a pagar es ${price}.  ¿Confirmar pago?  (S/N):  ').upper().strip() != 'S':
+            print('Compra anulada')
+            return False
+        print('Pago realizado')
+        return True
+    
+    def display_ticket(self, data):
+        print('¡Gracias por su compra!')
+        self.display(data)
+        input('Preseione ENTER para continuar')
         
         
         

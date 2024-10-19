@@ -97,15 +97,14 @@ class AdminController:
         location = self.admin_view.select_location(location_ids)
         if location['success']:
             data = self.admin_view.create_show()
-            data['location_id'] = location['id']
-            self.shows_model.post(data)
+            self.shows_model.create_show(data, location['id'])
 
     def _display_shows(self):
         shows_recap, show_ids = self.shows
         self.admin_view.display(shows_recap)
         show = self.admin_view.select_show(show_ids)
         if show['success']:
-            details = self.shows_model.get_shows_detail(show['id'])
+            details = self.shows_model.get_show_details(show['id'])
             self.admin_view.display(details)
 
     def _update_show(self):

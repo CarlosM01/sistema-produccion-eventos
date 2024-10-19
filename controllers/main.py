@@ -41,7 +41,7 @@ class MainController:
             dashboard_actions = {
                 1: self._handle_root_dashboard,
                 2: self._handle_admin_dashboard,
-                3: lambda: self.common_view.alert('Attendee Dashboard'),
+                3: self._handle_attendee_dashboard,
             }
             dashboard_actions.get(role_id, self._invalid_role)()  # Ejecuta la acción según el rol
 
