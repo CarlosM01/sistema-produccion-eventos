@@ -1,13 +1,8 @@
-from tabulate import tabulate
-
-from utils.validations import Validations
-
 from views.common import CommonView
 
 class AdminView(CommonView):    
     def __init__(self):
         super().__init__()
-        self.v = Validations()
 
 
     def menu(self, user_name:str)->int:
@@ -95,16 +90,9 @@ SELECCIONE UNA OPCIÓN:
             'artist': input('Artista:  ').strip(),
             'description': input('Descrición:  ').strip(),
             'date': self.v.date('Fecha (AAAA:MM:DD):  '),
-            'price': self.v.float_number(1,1000000, 'Precio:  ')
+            'price': self.v.float_number(0,1000000, 'Precio:  ')
         }
         return data
-
-
-    def select_show(self, available_ids):
-        id = self.v.get_valid_id(available_ids, 'Si desea ver los detalles de un evento seleccione el ID, para cancelar ingrese "X"  ')
-        if id:
-            return {'success':True, 'id':id}  
-        else: return {'success':False}
 
         
     def update_show(self, available_ids: list) -> dict:

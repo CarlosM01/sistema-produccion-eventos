@@ -47,15 +47,15 @@ class MainController:
 
 
     def main_menu(self):
-        option = self.welcome_view.menu()
-        if option == 1:
-            self.login()
-        elif option == 2:
-            self.register()
-        elif option == 3:
-            self.common_view.alert("Saliendo del sistema...")
-            exit()
-
+        while True:
+            option = self.welcome_view.menu()
+            if option == 1:
+                self.login()
+            elif option == 2:
+                self.register()
+            elif option == 3:
+                exit() if self.common_view.exit_system() else None
+            
 
     def register(self):
         data = self.common_view.register()
@@ -89,8 +89,12 @@ class MainController:
 
     def _handle_admin_dashboard(self):
         res = self.admin_controller.menu()
-        if res.get('register'):
-            self.register()
+        if res.get('log_out'):
+            self.session.end_session()
+
+    
+    def _handle_attendee_dashboard(self):
+        res = self.attendee_controller.menu()
         if res.get('log_out'):
             self.session.end_session()
 

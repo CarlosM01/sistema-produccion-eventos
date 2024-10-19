@@ -12,7 +12,9 @@ class RootController:
         self.admin_model = AdminModel()
         self.root_view = RootView()
 
+    
     def menu(self):
+        self.logout = False
         admins = self.admin_model.get_admin_list()
         available_ids = [user['user_id'] for user in admins] if admins else []
 
@@ -29,7 +31,7 @@ class RootController:
         option = self.root_view.menu()
         menu_actions.get(option)()
 
-        return {'register': option == 2, 'log_out': option == 5}
+        return {'register': option == 2, 'log_out': self.logout}
 
     def _handle_register(self):
         self.root_view.alert('Registrar nuevo usuario')
@@ -47,11 +49,10 @@ class RootController:
             self.root_view.alert('Administrador eliminado exitosamente')
 
     def _log_out(self):
-        self.root_view.alert('Cerrando sesión')
+        self.logout = self.root_view.log_out()
 
     def _exit_system(self):
-        self.root_view.alert('Saliendo del sistema...')
-        exit()
+        exit() if self.root_view.exit_system() else None
 
 
 

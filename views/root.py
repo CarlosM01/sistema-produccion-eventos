@@ -1,13 +1,8 @@
-from tabulate import tabulate
-
-from utils.validations import Validations
-
 from views.common import CommonView
 
 class RootView(CommonView):    
     def __init__(self):
         super().__init__()
-        self.v = Validations()
 
 
     def menu(self):

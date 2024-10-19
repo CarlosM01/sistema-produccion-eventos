@@ -48,10 +48,9 @@ class Validations:
                 return None
             if (len(user_input) >= 8 and 
                 any(char.isdigit() for char in user_input) and 
-                any(char.isalpha() for char in user_input) and 
-                any(char in '!@#$%^&*()_+' for char in user_input)):
+                any(char.isalpha() for char in user_input)):
                 return user_input
-            print('La contraseña debe tener al menos 8 caracteres, contener letras, números y un carácter especial.')
+            print('La contraseña debe tener al menos 8 caracteres, contener letras y números.')
 
     @staticmethod
     def date(info: str = '', allow_empty: bool = False) -> str | None:
