@@ -1,8 +1,8 @@
 from controllers.main import MainController
-from initializer import initial_data
+from initializer import start_initializer
 
 def main():
-    initial_data()
+    start_initializer()
     main_controller = MainController()
     main_controller.redirect_to_dashboard()
     

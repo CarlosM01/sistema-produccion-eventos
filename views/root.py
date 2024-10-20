@@ -22,7 +22,7 @@ SELECCIONE UNA OPCIÓN:
     
 
     def update_admin(self, available_ids: list) -> dict:
-        id = self.v.get_valid_id(available_ids)
+        id = self.v.get_valid_id(available_ids, 'Seleccione el ID del administrador que desee ACTUALIZAR, para cancelar ingrese "X":  ')
         if not id:
             return {'success': False}
         data = self.update_user()
@@ -31,7 +31,7 @@ SELECCIONE UNA OPCIÓN:
 
 
     def delete_admin(self, available_ids: list) -> dict:
-        id = self.v.get_valid_id(available_ids)
+        id = self.v.get_valid_id(available_ids, 'Seleccione el ID del administrador que desee ELIMINAR, para cancelar ingrese "X":  ')
         if not id:
             return {'success': False}
         print('Usuario ELIMINADO')
