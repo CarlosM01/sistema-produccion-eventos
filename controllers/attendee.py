@@ -61,19 +61,12 @@ class AttendeeController:
     def _process_show(self, show_id):
         details = self.shows_model.get_show_details(show_id)
         self.attendee_view.display(details)
-        seats = self.attendee_view.buy_ticket(details)
-        self._handle_payment(seats, details) if seats else None
+        if self.attendee_view.buy_ticket(details):
+            self._create_reservation(details) 
 
-    def _handle_payment(self, seats, details):
-        total_price = details['price'] * seats
-        if self.attendee_view.confirm_payment(total_price):
-            self._create_reservation(seats, total_price, details) 
-
-    def _create_reservation(self, seats, price, details):
-        self.shows_model.update_reservations(seats, details['show_id'])
+    def _create_reservation(self, details):
+        self.shows_model.update_reservations(1, details['show_id'])
         data = {
-            'seats':seats, 
-            'price':price, 
             'user_id':self.user_data['user_id'], 
             'show_id':details['show_id']
             }

@@ -13,8 +13,6 @@ class ReservationsModel(CRUDModel):
         self.db.SQL(f'''
             CREATE TABLE IF NOT EXISTS {self.table_name} (
                 reservation_id INTEGER PRIMARY KEY AUTOINCREMENT,
-                seats INTEGER NOT NULL,
-                price REAL NOT NULL,
                 user_id INTEGER NOT NULL,
                 show_id INTEGER NOT NULL,
                 FOREIGN KEY (user_id) REFERENCES users(user_id) ON DELETE SET NULL,
@@ -31,8 +29,7 @@ class ReservationsModel(CRUDModel):
             SELECT
                 reservations.reservation_id,
                 users.name AS user_name,   
-                reservations.seats,
-                reservations.price,
+                shows.price,
                 shows.name AS show_name,   
                 shows.artist,
                 shows.description,

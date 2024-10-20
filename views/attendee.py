@@ -27,19 +27,19 @@ SELECCIONE UNA OPCIÓN:
         if available_seats == 0:
             print('No quedan cupos para este evento')
             return False
+        
         print(f'Quedan {available_seats} asientos disponibles de {details['capacity']}')
         if input(f'¿Desea comprar un boleto para {details['name']}? (S/N):  ').upper().strip() != 'S':
             print('Operación cancelada')
             return False
-        return self.v.int_number(1, available_seats, '¿Cuántos asientos desea reservar?')
-    
-    def confirm_payment(self, price):
-        if input(f'El total a pagar es ${price}.  ¿Confirmar pago?  (S/N):  ').upper().strip() != 'S':
+        
+        if input(f'El total a pagar es ${details['price']}.  ¿Confirmar pago?  (S/N):  ').upper().strip() != 'S':
             print('Compra anulada')
             return False
         print('Pago realizado')
         return True
     
+
     def display_ticket(self, data):
         print('¡Gracias por su compra!')
         self.display(data)
