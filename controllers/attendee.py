@@ -28,6 +28,11 @@ class AttendeeController:
         """Obtiene los shows y sus IDs."""
         recap = self.shows_model.get_shows_recap()
         return recap, [show['show_id'] for show in recap]
+    
+    @property
+    def reservations(self):
+        recap = self.reservations_model.reservations_recap(self.user_data['user_id'])
+        return recap, [res['reservation_id'] for res in recap]
 
     def menu(self):
         self.logout = False
@@ -37,10 +42,11 @@ class AttendeeController:
         # Diccionario de acciones del menú.
         menu_actions = {
             1: self._new_reservation,
-            2: self._handle_reservatios,
-
-            4: self._log_out,
-            5: self._exit_system,
+            2: self._display_reservations,
+            3: self._delete_reservation,
+            4: self._update_personal_info,
+            5: self._log_out,
+            6: self._exit_system,
         }
 
         action = menu_actions.get(option)
@@ -64,8 +70,9 @@ class AttendeeController:
         if self.attendee_view.buy_ticket(details):
             self._create_reservation(details) 
 
+    #Este metodo necesita ser optimizado
     def _create_reservation(self, details):
-        self.shows_model.update_reservations(1, details['show_id'])
+        self.shows_model.update_reservations(1, details['show_id']) #Esto deberia estar centralizado en ReservationsModels
         data = {
             'user_id':self.user_data['user_id'], 
             'show_id':details['show_id']
@@ -74,71 +81,34 @@ class AttendeeController:
         self.attendee_view.display_ticket(ticket)
 
              
+    def _display_reservations(self):
+        reservations_recap, reservations_ids = self.reservations
+
+        self.attendee_view.display(reservations_recap)
+        option = self.attendee_view.select_show(reservations_ids)
+        if option['success']:
+            ticket = self.reservations_model.get_ticket_details(option['id'])
+            self.attendee_view.display(ticket)
+
     
+    def _delete_reservation(self):
+        reservations_recap, reservations_ids = self.reservations
 
+        self.attendee_view.display(reservations_recap)
+        option = self.attendee_view.select_show(reservations_ids)
+        if option['success']:
+            if self.attendee_view.delete_reservation():
+                res = self.reservations_model.get_by_attribute('reservation_id', option['id'])
+                self.reservations_model.delete(option['id'])
+                self.shows_model.update_reservations(-1, res['show_id'])
+        
 
-
-
-
-
-
-
-
-
-
-
-
-    def _handle_reservatios(self):
-        while True:
-            locations, location_ids = self.locations
-            option = self.admin_view.locations_menu()
-            if option == 1:
-                self.admin_view.display(locations)
-            elif option == 2:
-                self._create_location()
-            elif option == 3:
-                self._update_location(location_ids)
-            elif option == 4:
-                self._delete_location(location_ids)
-            else:
-                break  # Salir del submenú
-
-
-
-
-
-
-    def _update_show(self):
-        shows_recap, show_ids = self.shows
-        self.admin_view.display(shows_recap)
-
-        update = self.admin_view.update_show(show_ids)
-        if update['success']:
-            self._apply_show_update(update)
-
-    def _apply_show_update(self, update):
-        location_ids = self.locations[1]
-        data = update['data']
-
-        location = self.admin_view.update_location_show(location_ids)
-        if location['success']:
-            data['location_id'] = location['id']
-
-        self.shows_model.update(update['id'], data)
-
-    def _delete_show(self):
-        shows_recap, show_ids = self.shows
-        self.admin_view.display(shows_recap)
-
-        delete = self.admin_view.delete_show(show_ids)
-        if delete['success']:
-            self.shows_model.delete(delete['id'])
-
+    #Logica duplicada con el rol de administrador, considerar centralizar esta caracteristica
     def _update_personal_info(self):
         user_data = self.user_data
-        updated_info = self.admin_view.update_user()
+        updated_info = self.attendee_view.update_user()
 
-        new_pass = self.admin_view.update_password(user_data['password'])
+        new_pass = self.attendee_view.update_password(user_data['password'])
         if new_pass:
             updated_info['password'] = new_pass
 

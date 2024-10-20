@@ -136,18 +136,3 @@ SELECCIONE UNA OPCIÓN:
         print('evento ELIMINADO')
         return {'success': True, 'id': id}
     
-
-    def update_password(self, current_password):
-        if input('¿Desea actualizar contraseña? (S/N): ').strip().upper() != 'S':
-            return None  # No se actualiza la contraseña
-
-        if input('Ingrese su contraseña actual: ') != current_password:
-            print('Contraseña incorrecta')
-            return None
-
-        while True:
-            new_password = self.v.password('Escriba su nueva contraseña: ')
-            if new_password == input('Confirme su nueva contraseña: '):
-                print('Contraseña actualizada exitosamente')
-                return new_password
-            print('Las contraseñas no coinciden, intente nuevamente')

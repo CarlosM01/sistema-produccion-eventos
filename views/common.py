@@ -38,6 +38,22 @@ class CommonView():
         data = {key: value for key, value in inputs.items() if value}
         return data
     
+    def update_password(self, current_password):
+        if input('¿Desea actualizar contraseña? (S/N): ').strip().upper() != 'S':
+            return None  # No se actualiza la contraseña
+
+        if input('Ingrese su contraseña actual: ') != current_password:
+            print('Contraseña incorrecta')
+            return None
+
+        while True:
+            new_password = self.v.password('Escriba su nueva contraseña: ')
+            if new_password == input('Confirme su nueva contraseña: '):
+                print('Contraseña actualizada exitosamente')
+                return new_password
+            print('Las contraseñas no coinciden, intente nuevamente')
+
+
 
     def select_show(self, available_ids):
         id = self.v.get_valid_id(available_ids, 'Si desea ver los detalles de un evento seleccione el ID, para cancelar ingrese "X"  ')

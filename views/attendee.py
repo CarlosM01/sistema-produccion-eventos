@@ -17,7 +17,7 @@ SELECCIONE UNA OPCIÓN:
     5. Volver al menú principal
     6. Salir de la aplicación
 ''')
-        option = self.v.int_number(1, 5)
+        option = self.v.int_number(1, 6)
         return(option)
 
     
@@ -44,6 +44,11 @@ SELECCIONE UNA OPCIÓN:
         print('¡Gracias por su compra!')
         self.display(data)
         input('Preseione ENTER para continuar')
+
+    def delete_reservation(self):
+        if input('¿Eliminar reserva? (S/N)  ').upper().strip() != 'S':
+            return False
+        return True
         
         
         

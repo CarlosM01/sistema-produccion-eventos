@@ -28,7 +28,8 @@ class ReservationsModel(CRUDModel):
             CREATE VIEW ticket_details AS
             SELECT
                 reservations.reservation_id,
-                users.name AS user_name,   
+                users.user_id,
+                users.name AS user_name, 
                 shows.price,
                 shows.name AS show_name,   
                 shows.artist,
@@ -56,3 +57,13 @@ class ReservationsModel(CRUDModel):
         result = self.get_all()
         id = result[-1]['reservation_id']
         return self.get_ticket_details(id)
+    
+    def reservations_recap(self, id):
+        self.db.connect()
+        self.create_ticket_details()
+        time.sleep(0.5)
+        result = self.db.SQL(f"SELECT reservation_id, show_name, artist, date FROM ticket_details WHERE user_id = {id}")
+        self.db.SQL("DROP VIEW IF EXISTS ticket_details")
+        self.db.close()
+        return result
+    
