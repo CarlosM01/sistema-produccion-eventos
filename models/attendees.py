@@ -5,5 +5,3 @@ class AttendeeModel(UserModel):
         super().__init__()
         self.role_id = 3
         
-    def view_content(self):
-        pass

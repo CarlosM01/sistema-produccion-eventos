@@ -28,6 +28,7 @@ ___
 
 
 **notas:**
+* Centralizar el manejo de reservaciones, actualmente hay dos modelos involucrados de una sola caracteristica (Show y Reservation)
 * La aplicacion actualmente es vulnerable a Inyeccion de SQL
 * Considerar hashear contraseñas
 * considerar incluir opcion de cancelar envio de formularios
