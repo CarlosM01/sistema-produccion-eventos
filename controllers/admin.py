@@ -17,13 +17,13 @@ class AdminController:
 
     @property
     def locations(self):
-        """Obtiene las sedes y sus IDs."""
+        """Gets the locations and their IDs."""
         locations = self.locations_model.get_all()
         return locations, [loc['location_id'] for loc in locations]
 
     @property
     def shows(self):
-        """Obtiene los shows y sus IDs."""
+        """Gets the shows and their IDs."""
         recap = self.shows_model.get_shows_recap()
         return recap, [show['show_id'] for show in recap]
 
@@ -32,7 +32,7 @@ class AdminController:
         self.user_data = self.session.get_active_user()
         option = self.admin_view.menu(self.user_data['name'])
 
-        # Diccionario de acciones del menú.
+        # Menu action dictionary
         menu_actions = {
             1: self._handle_locations,
             2: self._create_show,
@@ -64,7 +64,7 @@ class AdminController:
             elif option == 4:
                 self._delete_location(location_ids)
             else:
-                break  # Salir del submenú
+                break  # Exit submenu
 
     def _create_location(self):
         data = self.admin_view.create_location()

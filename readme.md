@@ -1,36 +1,38 @@
-# Sistema de Gestión de Eventos
+# Event Management System
 
-La aplicación sigue la arquitectura MVC para mantener la separación de responsabilidades.
+The application follows the MVC architecture to maintain separation of concerns.
 
-**Lenguaje:**
-    
+**Language:**
+
 - Python 3.12.5
 
-**Dependencias:**
-    
+**Dependencies:**
+
 - tabulate==0.9.0
 
+## Installation Instructions
 
-## Instrucciones de Instalación
-
-1. **Clona el repositorio:** 
+1. **Clone the repository:**
 
     ```bash
     git clone https://github.com/CarlosM01/sistema-produccion-eventos.git
-    cd sistema-gestion-eventosS
-2. **Instala las dependencias del proyecto**
+    cd sistema-gestion-eventos
+    ```
+2. **Install the project dependencies:**
     ```bash
     pip install -r requirements.txt
-3. **Iniciar la aplicación**
+    ```
+3. **Start the application:**
     ```bash
     python3 main.py
-___
+    ```
 
+---
 
-**notas:**
-* La aplicacion actualmente es vulnerable a Inyeccion de SQL
-* Considerar hashear contraseñas
-* considerar incluir opcion de cancelar envio de formularios
-* AttendeeController no esta optimizado
-* Hay algunos patrones de disenio inconsistentes
-* El envio de informacion entre componentes no esa estandarizado (considerar usar solo diccionarios)
+**Notes:**
+* The application is currently vulnerable to SQL Injection.
+* Consider hashing passwords.
+* Consider adding an option to cancel form submissions.
+* AttendeeController is not optimized.
+* Some design patterns are inconsistent.
+* Data transfer between components is not standardized (consider using only dictionaries).

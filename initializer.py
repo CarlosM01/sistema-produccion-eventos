@@ -5,12 +5,12 @@ def initial_data():
     role_model = RoleModel()
     root_model = RootModel()
 
-    # Inicializando tabla de roles 
+    # Initialize roles table
     roles = ['root', 'admin', 'attendee']
     for role in roles:
         role_model.create_role({'role_name': role})
 
-    # Inicializando datos de super usuario
+    # Initialize super user data
     sudo_email = 'root@email.com'
     existing_user = root_model.get_by_attribute('email', sudo_email)
     if not existing_user:
@@ -22,4 +22,4 @@ def initial_data():
         }
         root_model.register(sudo)
 
-    # Considerar usar algún protocolo de seguridad con esta información antes de desplegar a producción
+    # Consider using some security protocol with this information before deploying to production
